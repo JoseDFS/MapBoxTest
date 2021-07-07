@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity(), OnMapReadyCallback, PermissionsListener {
 
     private var permissionsManager: PermissionsManager = PermissionsManager(this)
-    private lateinit var mapboxMap: MapboxMap
+    private lateinit var map: MapboxMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +36,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, PermissionsListene
     }
 
     override fun onMapReady(mapboxMap: MapboxMap) {
-        this.mapboxMap = mapboxMap
-        mapboxMap.setStyle(Style.OUTDOORS) {
+        map = mapboxMap
+        map.setStyle(Style.OUTDOORS) {
 
             // Map is set up and the style has loaded. Now you can add data or make other map adjustments
             enableLocationComponent(it)
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, PermissionsListene
                 .build()
 
             // Get an instance of the LocationComponent and then adjust its settings
-            mapboxMap.locationComponent.apply {
+            map.locationComponent.apply {
 
                 // Activate the LocationComponent with options
                 activateLocationComponent(locationComponentActivationOptions)
@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, PermissionsListene
 
     override fun onPermissionResult(granted: Boolean) {
         if (granted) {
-            enableLocationComponent(mapboxMap.style!!)
+            enableLocationComponent(map.style!!)
         } else {
             Toast.makeText(this, R.string.user_location_permission_not_granted, Toast.LENGTH_LONG).show()
             finish()
